@@ -1,6 +1,6 @@
-import Link from "next/link";
-import Image from "next/image";
 import { ConsumptionMethod } from "@prisma/client";
+import Image from "next/image";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,18 +15,18 @@ interface ConsumptionMethodOptionProps {
 
 const ConsumptionMethodOption = ({
   slug,
-  option,
   imageAlt,
   imageUrl,
   buttonText,
+  option,
 }: ConsumptionMethodOptionProps) => {
   return (
     <Card>
       <CardContent className="flex flex-col items-center gap-8 py-8">
         <div className="relative h-[80px] w-[80px]">
           <Image
-            fill
             src={imageUrl}
+            fill
             alt={imageAlt}
             className="object-contain"
           />
