@@ -6,7 +6,7 @@ import { ChevronLeftIcon, ChevronRightIcon, TrashIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/helpers/format-currency";
-import { CardContext, CardProduct } from "../../context/card";
+import { CardContext, CardProduct } from "../context/card";
 
 interface CardProductItemProps {
   product: CardProduct;

@@ -5,9 +5,9 @@ import { Prisma } from "@prisma/client";
 import { useContext, useState } from "react";
 import { ChefHatIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
-import CardSheet from "./card-sheet";
 import { Button } from "@/components/ui/button";
 import { CardContext } from "../../context/card";
+import CardSheet from "../../components/card-sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatCurrency } from "@/helpers/format-currency";
 
