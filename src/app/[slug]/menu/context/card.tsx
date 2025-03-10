@@ -14,6 +14,7 @@ export interface ICardContext {
   toggleOpen: () => void;
   setIsOpen: (isOpen: boolean) => void;
   addProduct: (product: CardProduct) => void;
+  removeProduct: (productId: string) => void;
   decreaseProductQuantity: (productId: string) => void;
   incrementProductQuantity: (productId: string) => void;
 }
@@ -24,6 +25,7 @@ const initialState: ICardContext = {
   setIsOpen: () => {},
   toggleOpen: () => {},
   addProduct: () => {},
+  removeProduct: () => {},
   decreaseProductQuantity: () => {},
   incrementProductQuantity: () => {},
 };
@@ -78,6 +80,12 @@ export const CardProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const removeProduct = (productId: string) => {
+    setProducts((prevProducts) =>
+      prevProducts.filter((prevProduct) => prevProduct.id !== productId),
+    );
+  };
+
   return (
     <CardContext.Provider
       value={{
@@ -86,6 +94,7 @@ export const CardProvider = ({ children }: { children: ReactNode }) => {
         toggleOpen,
         products,
         addProduct,
+        removeProduct,
         decreaseProductQuantity,
         incrementProductQuantity,
       }}
