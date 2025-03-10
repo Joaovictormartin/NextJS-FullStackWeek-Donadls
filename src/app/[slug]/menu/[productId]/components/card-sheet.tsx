@@ -4,11 +4,11 @@ import { useContext } from "react";
 
 import {
   Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
   SheetTitle,
+  SheetHeader,
+  SheetContent,
 } from "@/components/ui/sheet";
+import CardItem from "./card-product-item";
 import { CardContext } from "../../context/card";
 
 const CardSheet = () => {
@@ -16,20 +16,16 @@ const CardSheet = () => {
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetContent>
+      <SheetContent className="w-[80%] p-5">
         <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </SheetDescription>
+          <SheetTitle className="text-start">Sacola</SheetTitle>
         </SheetHeader>
 
-        {products.map((product) => (
-          <h1 key={product.id}>
-            {product.name} - {product.quantity}
-          </h1>
-        ))}
+        <div className="py-5">
+          {products.map((product) => (
+            <CardItem key={product.id} product={product} />
+          ))}
+        </div>
       </SheetContent>
     </Sheet>
   );
