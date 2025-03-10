@@ -13,6 +13,7 @@ import CardItem from "./card-product-item";
 import { CardContext } from "../context/card";
 import { Button } from "@/components/ui/button";
 import CardProductInfo from "./card-product-info";
+import FinishOrderButton from "./finish-order-button";
 
 const CardSheet = () => {
   const { isOpen, setIsOpen, products } = useContext(CardContext);
@@ -34,7 +35,7 @@ const CardSheet = () => {
           <SheetFooter className="flex flex-col gap-4">
             <CardProductInfo />
 
-            <Button className="w-full rounded-full">Finalizar pedido</Button>
+            <FinishOrderButton />
           </SheetFooter>
         </div>
       </SheetContent>
