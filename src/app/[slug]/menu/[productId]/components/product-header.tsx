@@ -30,7 +30,7 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
         fill
         alt={product.name}
         src={product.imageUrl}
-        className="object-contain"
+        className="min-w-[300px] object-contain"
       />
 
       <Button
