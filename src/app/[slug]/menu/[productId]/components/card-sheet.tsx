@@ -1,5 +1,7 @@
 "use client";
 
+import { useContext } from "react";
+
 import {
   Sheet,
   SheetContent,
@@ -7,11 +9,10 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { useContext } from "react";
 import { CardContext } from "../../context/card";
 
 const CardSheet = () => {
-  const { isOpen, setIsOpen } = useContext(CardContext);
+  const { isOpen, setIsOpen, product } = useContext(CardContext);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -23,6 +24,12 @@ const CardSheet = () => {
             account and remove your data from our servers.
           </SheetDescription>
         </SheetHeader>
+
+        {product.map((product) => (
+          <h1 key={product.id}>
+            {product.name} - {product.quantity}
+          </h1>
+        ))}
       </SheetContent>
     </Sheet>
   );

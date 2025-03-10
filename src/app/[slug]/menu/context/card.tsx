@@ -3,7 +3,8 @@
 import { Product } from "@prisma/client";
 import { createContext, ReactNode, useState } from "react";
 
-interface CardProduct extends Product {
+interface CardProduct
+  extends Pick<Product, "id" | "name" | "imageUrl" | "price"> {
   quantity: number;
 }
 
@@ -12,6 +13,7 @@ export interface ICardContext {
   product: CardProduct[];
   toggleOpen: () => void;
   setIsOpen: (isOpen: boolean) => void;
+  addProduct: (product: CardProduct) => void;
 }
 
 const initialState: ICardContext = {
@@ -19,6 +21,7 @@ const initialState: ICardContext = {
   product: [],
   setIsOpen: () => {},
   toggleOpen: () => {},
+  addProduct: () => {},
 };
 
 export const CardContext = createContext<ICardContext>(initialState);
@@ -29,8 +32,14 @@ export const CardProvider = ({ children }: { children: ReactNode }) => {
 
   const toggleOpen = () => setIsOpen((prevState) => !prevState);
 
+  const addProduct = (product: CardProduct) => {
+    setProduct((prev) => [...prev, product]);
+  };
+
   return (
-    <CardContext.Provider value={{ isOpen, setIsOpen, product, toggleOpen }}>
+    <CardContext.Provider
+      value={{ isOpen, setIsOpen, product, addProduct, toggleOpen }}
+    >
       {children}
     </CardContext.Provider>
   );
