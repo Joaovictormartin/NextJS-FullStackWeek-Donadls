@@ -97,17 +97,19 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             </p>
           </div>
 
-          <div className="mt-6 space-y-3">
-            <div className="flex items-center gap-1.5">
-              <ChefHatIcon size={18} />
-              <h4 className="font-semibold">Ingredientes</h4>
+          {product.ingredients.length > 0 && (
+            <div className="mt-6 space-y-3">
+              <div className="flex items-center gap-1.5">
+                <ChefHatIcon size={18} />
+                <h4 className="font-semibold">Ingredientes</h4>
+              </div>
+              <ul className="list-disc px-5 text-sm text-muted-foreground">
+                {product.ingredients.map((ingredient) => (
+                  <li key={ingredient}>{ingredient}</li>
+                ))}
+              </ul>
             </div>
-            <ul className="list-disc px-5 text-sm text-muted-foreground">
-              {product.ingredients.map((ingredient) => (
-                <li key={ingredient}>{ingredient}</li>
-              ))}
-            </ul>
-          </div>
+          )}
         </ScrollArea>
       </div>
 

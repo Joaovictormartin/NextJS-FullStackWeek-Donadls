@@ -12,7 +12,7 @@ import {
 import { CardContext } from "../../context/card";
 
 const CardSheet = () => {
-  const { isOpen, setIsOpen, product } = useContext(CardContext);
+  const { isOpen, setIsOpen, products } = useContext(CardContext);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -25,7 +25,7 @@ const CardSheet = () => {
           </SheetDescription>
         </SheetHeader>
 
-        {product.map((product) => (
+        {products.map((product) => (
           <h1 key={product.id}>
             {product.name} - {product.quantity}
           </h1>

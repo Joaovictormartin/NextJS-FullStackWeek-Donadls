@@ -10,7 +10,7 @@ interface CardProduct
 
 export interface ICardContext {
   isOpen: boolean;
-  product: CardProduct[];
+  products: CardProduct[];
   toggleOpen: () => void;
   setIsOpen: (isOpen: boolean) => void;
   addProduct: (product: CardProduct) => void;
@@ -18,7 +18,7 @@ export interface ICardContext {
 
 const initialState: ICardContext = {
   isOpen: false,
-  product: [],
+  products: [],
   setIsOpen: () => {},
   toggleOpen: () => {},
   addProduct: () => {},
@@ -28,17 +28,34 @@ export const CardContext = createContext<ICardContext>(initialState);
 
 export const CardProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [product, setProduct] = useState<CardProduct[]>([]);
+  const [products, setProducts] = useState<CardProduct[]>([]);
 
   const toggleOpen = () => setIsOpen((prevState) => !prevState);
 
   const addProduct = (product: CardProduct) => {
-    setProduct((prev) => [...prev, product]);
+    const productIsAlreadyOnTheCart = products.some(
+      (prevProduct) => prevProduct.id === product.id,
+    );
+    if (!productIsAlreadyOnTheCart) {
+      return setProducts((prevProducts) => [...prevProducts, product]);
+    }
+
+    setProducts((prevProducts) => {
+      return prevProducts.map((prevProduct) => {
+        if (prevProduct.id === product.id) {
+          return {
+            ...prevProduct,
+            quantity: prevProduct.quantity + product.quantity,
+          };
+        }
+        return prevProduct;
+      });
+    });
   };
 
   return (
     <CardContext.Provider
-      value={{ isOpen, setIsOpen, product, addProduct, toggleOpen }}
+      value={{ isOpen, setIsOpen, products, addProduct, toggleOpen }}
     >
       {children}
     </CardContext.Provider>
