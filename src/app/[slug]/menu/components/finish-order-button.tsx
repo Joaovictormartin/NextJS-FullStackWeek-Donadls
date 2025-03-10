@@ -1,9 +1,14 @@
 "use client";
 
 import { z } from "zod";
+import { toast } from "sonner";
 import { useForm } from "react-hook-form";
+import { Loader2Icon } from "lucide-react";
+import { useContext, useState } from "react";
+import { ConsumptionMethod } from "@prisma/client";
 import { PatternFormat } from "react-number-format";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useParams, useSearchParams } from "next/navigation";
 
 import {
   Drawer,
@@ -25,7 +30,14 @@ import {
 } from "@/components/ui/form";
 import { isValidCpf } from "@/helpers/cpf";
 import { Input } from "@/components/ui/input";
+import { CardContext } from "../context/card";
 import { Button } from "@/components/ui/button";
+import { createOrder } from "@/actions/create-order";
+
+interface FinishOrderDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
 
 const formSchema = z.object({
   name: z.string().trim().min(2, { message: "O nome é obrigatório" }),
@@ -36,23 +48,51 @@ const formSchema = z.object({
     .refine((value) => isValidCpf(value), { message: "CPF inválido" }),
 });
 
-const FinishOrderButton = () => {
+const FinishOrderButton = ({ open, onOpenChange }: FinishOrderDialogProps) => {
+  const searchParams = useSearchParams();
+  const { products } = useContext(CardContext);
+  const { slug } = useParams<{ slug: string }>();
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    shouldUnregister: true,
     defaultValues: {
       cpf: "",
       name: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    try {
+      setIsLoading(true);
+
+      const consumptionMethod = searchParams.get(
+        "consumptionMethod",
+      ) as ConsumptionMethod;
+
+      await createOrder({
+        slug,
+        products,
+        consumptionMethod,
+        customerCpf: data.cpf,
+        customerName: data.name,
+      });
+
+      toast.success("Pedido finalizado com sucesso!");
+    } catch (error) {
+      console.error("🚀 ~ onSubmit ~ error:", error);
+    } finally {
+      onOpenChange(false);
+      setIsLoading(false);
+    }
   };
 
   return (
-    <Drawer>
+    <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild>
-        <Button className="w-full rounded-full">Finalizar pedido</Button>
+        <Button className="w-full rounded-full">Fina lizar pedido</Button>
       </DrawerTrigger>
 
       <DrawerContent>
@@ -107,9 +147,11 @@ const FinishOrderButton = () => {
 
                 <Button
                   type="submit"
+                  disabled={isLoading}
                   variant={"destructive"}
                   className="w-full rounded-full"
                 >
+                  {isLoading && <Loader2Icon className="animate-spin" />}
                   Finalizar
                 </Button>
               </DrawerFooter>

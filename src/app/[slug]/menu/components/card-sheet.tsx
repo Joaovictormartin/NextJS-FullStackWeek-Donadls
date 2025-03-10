@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import {
   Sheet,
@@ -11,12 +11,13 @@ import {
 } from "@/components/ui/sheet";
 import CardItem from "./card-product-item";
 import { CardContext } from "../context/card";
-import { Button } from "@/components/ui/button";
 import CardProductInfo from "./card-product-info";
 import FinishOrderButton from "./finish-order-button";
 
 const CardSheet = () => {
   const { isOpen, setIsOpen, products } = useContext(CardContext);
+
+  const [finishOrderDialogIsOpen, setFinishOrderDialogIsOpen] = useState(false);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -35,7 +36,10 @@ const CardSheet = () => {
           <SheetFooter className="flex flex-col gap-4">
             <CardProductInfo />
 
-            <FinishOrderButton />
+            <FinishOrderButton
+              open={finishOrderDialogIsOpen}
+              onOpenChange={setFinishOrderDialogIsOpen}
+            />
           </SheetFooter>
         </div>
       </SheetContent>
