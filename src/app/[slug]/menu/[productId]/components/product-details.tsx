@@ -43,7 +43,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   };
 
   return (
-    <div className="z-50 mt-[-1.5rem] flex flex-1 flex-col overflow-hidden rounded-t-3xl p-5">
+    <div className="max-w-1200 z-50 mx-auto mt-[-1.5rem] flex w-full flex-1 flex-col overflow-hidden rounded-t-3xl p-5">
       <div className="flex-1 overflow-hidden">
         <div className="flex items-center gap-1.5">
           <Image

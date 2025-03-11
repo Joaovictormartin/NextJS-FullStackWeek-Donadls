@@ -23,9 +23,9 @@ interface OrderItemProps {
 
 const OrderItem = ({ order }: OrderItemProps) => {
   const statusLabel = (status: OrderStatus) => {
-    if (status === "PENDING") return "Pendente";
-    if (status === "FINISHED") return "Finalizado";
-    if (status === "IN_PREPARATION") return "Em preparo";
+    if (status === OrderStatus.PENDING) return "Pendente";
+    if (status === OrderStatus.FINISHED) return "Finalizado";
+    if (status === OrderStatus.IN_PREPARATION) return "Em preparo";
     return " ";
   };
 

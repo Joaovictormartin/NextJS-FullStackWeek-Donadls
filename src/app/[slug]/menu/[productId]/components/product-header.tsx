@@ -23,15 +23,6 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
 
   return (
     <div className="relative h-[300px] w-full">
-      <Button
-        size="icon"
-        variant="secondary"
-        onClick={handleBackClick}
-        className="absolute left-4 top-4 z-50 rounded-full"
-      >
-        <ChevronLeftIcon />
-      </Button>
-
       <Image
         fill
         alt={product.name}
@@ -39,14 +30,24 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
         className="min-w-[300px] object-contain"
       />
 
-      <Button
-        size="icon"
-        variant="secondary"
-        onClick={handleOpenCart}
-        className="absolute right-4 top-4 z-50 rounded-full"
-      >
-        <ScrollTextIcon />
-      </Button>
+      <div className="max-w-1200 relative mx-auto">
+        <Button
+          size="icon"
+          variant="secondary"
+          onClick={handleBackClick}
+          className="absolute left-4 top-4 z-50 rounded-full"
+        >
+          <ChevronLeftIcon />
+        </Button>
+        <Button
+          size="icon"
+          variant="secondary"
+          onClick={handleOpenCart}
+          className="absolute right-4 top-4 z-50 rounded-full"
+        >
+          <ScrollTextIcon />
+        </Button>
+      </div>
     </div>
   );
 };

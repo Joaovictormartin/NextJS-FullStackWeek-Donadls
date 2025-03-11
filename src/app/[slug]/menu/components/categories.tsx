@@ -40,7 +40,7 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
   };
 
   return (
-    <div className="relative z-50 mt-[-1.5rem] rounded-t-3xl bg-white">
+    <div className="max-w-1200 relative z-50 mx-auto mt-[-1.5rem] rounded-t-3xl bg-white px-0 shadow-2xl md:px-3">
       <div className="p-5">
         <div className="flex items-center gap-3">
           <Image

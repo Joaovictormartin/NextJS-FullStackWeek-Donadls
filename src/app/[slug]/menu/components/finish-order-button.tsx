@@ -92,7 +92,7 @@ const FinishOrderButton = ({ open, onOpenChange }: FinishOrderDialogProps) => {
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild>
-        <Button className="w-full rounded-full">Fina lizar pedido</Button>
+        <Button className="w-full rounded-full">Finalizar pedido</Button>
       </DrawerTrigger>
 
       <DrawerContent>

@@ -21,30 +21,39 @@ const RestaurantHeader = ({ restaurant }: RestaurantHeaderProps) => {
 
   return (
     <div className="relative h-[250px] w-full">
-      <Button
-        size="icon"
-        variant="secondary"
-        onClick={handleBackClick}
-        className="absolute left-4 top-4 z-50 rounded-full"
-      >
-        <ChevronLeftIcon />
-      </Button>
+      <Image
+        fill
+        alt={restaurant.name}
+        src={restaurant.coverImageUrl}
+        className="hidden object-fill opacity-30 blur-xl md:block"
+      />
 
       <Image
         fill
         alt={restaurant.name}
-        className="object-cover"
         src={restaurant.coverImageUrl}
+        className="max-w-1200 relative z-10 mx-auto object-cover md:object-contain"
       />
 
-      <Button
-        size="icon"
-        variant="secondary"
-        onClick={handleNavigateOrder}
-        className="absolute right-4 top-4 z-50 rounded-full"
-      >
-        <ScrollTextIcon />
-      </Button>
+      <div className="max-w-1200 relative mx-auto">
+        <Button
+          size="icon"
+          variant="secondary"
+          onClick={handleBackClick}
+          className="absolute left-4 top-4 z-50 rounded-full"
+        >
+          <ChevronLeftIcon />
+        </Button>
+
+        <Button
+          size="icon"
+          variant="secondary"
+          onClick={handleNavigateOrder}
+          className="absolute right-4 top-4 z-50 rounded-full"
+        >
+          <ScrollTextIcon />
+        </Button>
+      </div>
     </div>
   );
 };

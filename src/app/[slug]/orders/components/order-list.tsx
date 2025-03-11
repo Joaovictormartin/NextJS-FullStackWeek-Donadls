@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { Prisma } from "@prisma/client";
-import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { ChevronLeftIcon, ScrollTextIcon } from "lucide-react";
 
 import OrderItem from "./order-item";
@@ -23,20 +24,20 @@ interface OrderListProps {
 }
 
 const OrderList = ({ orders }: OrderListProps) => {
-  const { back } = useRouter();
-
-  const handleGoBack = () => back();
+  const { slug } = useParams<{ slug: string }>();
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="max-w-1200 mx-auto space-y-6 p-6">
       <div className="flex items-center justify-between">
         <Button
+          asChild
           size={"icon"}
           variant={"secondary"}
-          onClick={handleGoBack}
           className="rounded-full"
         >
-          <ChevronLeftIcon />
+          <Link href={`/${slug}`}>
+            <ChevronLeftIcon />
+          </Link>
         </Button>
       </div>
 
@@ -53,3 +54,5 @@ const OrderList = ({ orders }: OrderListProps) => {
 };
 
 export default OrderList;
+
+//menu?consumptionMethod=DINE_IN
