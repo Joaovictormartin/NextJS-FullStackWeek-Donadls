@@ -38,10 +38,6 @@ const OrderList = ({ orders }: OrderListProps) => {
         >
           <ChevronLeftIcon />
         </Button>
-
-        <Button size={"icon"} variant={"secondary"} className="rounded-full">
-          <ScrollTextIcon />
-        </Button>
       </div>
 
       <div className="flex items-center gap-3">

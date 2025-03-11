@@ -1,12 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useContext } from "react";
-import { useRouter } from "next/navigation";
+
 import { Restaurant } from "@prisma/client";
+import { useParams, useRouter } from "next/navigation";
 import { ChevronLeftIcon, ScrollTextIcon } from "lucide-react";
 
-import { CardContext } from "../context/card";
 import { Button } from "@/components/ui/button";
 
 interface RestaurantHeaderProps {
@@ -14,12 +13,11 @@ interface RestaurantHeaderProps {
 }
 
 const RestaurantHeader = ({ restaurant }: RestaurantHeaderProps) => {
-  const { back } = useRouter();
-  const { toggleOpen } = useContext(CardContext);
+  const { back, push } = useRouter();
+  const { slug } = useParams<{ slug: string }>();
 
   const handleBackClick = () => back();
-
-  const handleOpenCart = () => toggleOpen();
+  const handleNavigateOrder = () => push(`/${slug}/orders`);
 
   return (
     <div className="relative h-[250px] w-full">
@@ -42,7 +40,7 @@ const RestaurantHeader = ({ restaurant }: RestaurantHeaderProps) => {
       <Button
         size="icon"
         variant="secondary"
-        onClick={handleOpenCart}
+        onClick={handleNavigateOrder}
         className="absolute right-4 top-4 z-50 rounded-full"
       >
         <ScrollTextIcon />
