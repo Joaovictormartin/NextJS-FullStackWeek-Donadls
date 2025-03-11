@@ -1,7 +1,9 @@
 "use server";
 
-import { db } from "@/lib/prisma";
+import { redirect } from "next/navigation";
 import { ConsumptionMethod } from "@prisma/client";
+
+import { db } from "@/lib/prisma";
 import { removeCpfPunctuation } from "@/helpers/cpf";
 import { getRestaurantBySlug } from "./get-restaurant-by-slug";
 
@@ -28,6 +30,11 @@ export const createOrder = async (input: CreateOrderProps) => {
     price: productWithPrices.find((p) => p.id === product.id)!.price,
   }));
 
+  const totalProducts = productsWithPricesAndQuantity.reduce(
+    (acc, product) => acc + product.price * product.quantity,
+    0,
+  );
+
   await db.order.create({
     data: {
       status: "PENDING",
@@ -40,10 +47,11 @@ export const createOrder = async (input: CreateOrderProps) => {
           data: productsWithPricesAndQuantity,
         },
       },
-      total: productsWithPricesAndQuantity.reduce(
-        (acc, product) => acc + product.price * product.quantity,
-        0,
-      ),
+      total: totalProducts,
     },
   });
+
+  redirect(
+    `/${input.slug}/orders?cpf=${removeCpfPunctuation(input.customerCpf)}`,
+  );
 };
