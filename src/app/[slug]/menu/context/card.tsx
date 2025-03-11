@@ -11,6 +11,7 @@ export interface CardProduct
 export interface ICardContext {
   total: number;
   isOpen: boolean;
+  totalQuantity: number;
   products: CardProduct[];
   toggleOpen: () => void;
   setIsOpen: (isOpen: boolean) => void;
@@ -24,6 +25,7 @@ const initialState: ICardContext = {
   total: 0,
   products: [],
   isOpen: false,
+  totalQuantity: 0,
   setIsOpen: () => {},
   toggleOpen: () => {},
   addProduct: () => {},
@@ -40,6 +42,10 @@ export const CardProvider = ({ children }: { children: ReactNode }) => {
 
   const total = products.reduce((acc, product) => {
     return acc + product.price * product.quantity;
+  }, 0);
+
+  const totalQuantity = products.reduce((acc, product) => {
+    return acc + product.quantity;
   }, 0);
 
   const toggleOpen = () => setIsOpen((prevState) => !prevState);
@@ -101,6 +107,7 @@ export const CardProvider = ({ children }: { children: ReactNode }) => {
         toggleOpen,
         products,
         addProduct,
+        totalQuantity,
         removeProduct,
         decreaseProductQuantity,
         incrementProductQuantity,
