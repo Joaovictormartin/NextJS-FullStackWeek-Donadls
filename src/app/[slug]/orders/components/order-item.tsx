@@ -45,12 +45,12 @@ const OrderItem = ({ order }: OrderItemProps) => {
 
         <div className="flex items-center gap-2">
           <div className="relative h-5 w-5">
-            {/* <Image
+            <Image
               fill
               alt={order.restaurant.name}
-              className="object-contain rounded-sm"
+              className="rounded-sm object-contain"
               src={order.restaurant.avatarImageUrl}
-            /> */}
+            />
           </div>
           <p className="text-sm font-semibold">{order.restaurant.name}</p>
         </div>

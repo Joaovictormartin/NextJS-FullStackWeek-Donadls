@@ -5,6 +5,7 @@ import { removeCpfPunctuation } from "@/helpers/cpf";
 
 export const getOrdersByCpf = async (cpf: string) => {
   const orders = await db.order.findMany({
+    orderBy: { createdAt: "desc" },
     where: { customerCpf: removeCpfPunctuation(cpf) },
     include: {
       restaurant: {
