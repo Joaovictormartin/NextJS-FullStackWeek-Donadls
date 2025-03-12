@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
-import { useParams } from "next/navigation";
-import { ChevronLeftIcon, ScrollTextIcon } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { ChevronLeftIcon, ScrollTextIcon, RefreshCcw } from "lucide-react";
 
 import OrderItem from "./order-item";
 import { Button } from "@/components/ui/button";
@@ -24,10 +24,13 @@ interface OrderListProps {
 }
 
 const OrderList = ({ orders }: OrderListProps) => {
+  const { refresh } = useRouter();
   const { slug } = useParams<{ slug: string }>();
 
+  const handleRefreshClick = () => refresh();
+
   return (
-    <div className="max-w-1200 mx-auto space-y-6 p-6">
+    <div className="mx-auto max-w-1200 space-y-6 p-6">
       <div className="flex items-center justify-between">
         <Button
           asChild
@@ -38,6 +41,15 @@ const OrderList = ({ orders }: OrderListProps) => {
           <Link href={`/${slug}`}>
             <ChevronLeftIcon />
           </Link>
+        </Button>
+
+        <Button
+          size={"icon"}
+          variant={"secondary"}
+          className="rounded-full"
+          onClick={handleRefreshClick}
+        >
+          <RefreshCcw />
         </Button>
       </div>
 

@@ -1,6 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { ConsumptionMethod } from "@prisma/client";
 
@@ -36,7 +35,7 @@ export const createOrder = async (input: CreateOrderProps) => {
     0,
   );
 
-  await db.order.create({
+  const order = await db.order.create({
     data: {
       status: "PENDING",
       restaurantId: restaurant.id,
@@ -54,7 +53,5 @@ export const createOrder = async (input: CreateOrderProps) => {
 
   revalidatePath(`/${input.slug}/orders`);
 
-  redirect(
-    `/${input.slug}/orders?cpf=${removeCpfPunctuation(input.customerCpf)}`,
-  );
+  return order;
 };

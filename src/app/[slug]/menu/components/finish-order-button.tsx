@@ -1,10 +1,10 @@
 "use client";
 
 import { z } from "zod";
-import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { Loader2Icon } from "lucide-react";
 import { useContext, useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
 import { ConsumptionMethod } from "@prisma/client";
 import { PatternFormat } from "react-number-format";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,6 +33,9 @@ import { Input } from "@/components/ui/input";
 import { CardContext } from "../context/card";
 import { Button } from "@/components/ui/button";
 import { createOrder } from "@/actions/create-order";
+import { createStripeCheckout } from "@/actions/create-stripe-checkout";
+
+const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
 
 interface FinishOrderDialogProps {
   open: boolean;
@@ -72,7 +75,7 @@ const FinishOrderButton = ({ open, onOpenChange }: FinishOrderDialogProps) => {
         "consumptionMethod",
       ) as ConsumptionMethod;
 
-      await createOrder({
+      const { id: orderId } = await createOrder({
         slug,
         products,
         consumptionMethod,
@@ -80,7 +83,17 @@ const FinishOrderButton = ({ open, onOpenChange }: FinishOrderDialogProps) => {
         customerName: data.name,
       });
 
-      toast.success("Pedido finalizado com sucesso!");
+      if (!stripePublicKey) return;
+
+      const { sessionId } = await createStripeCheckout({
+        slug,
+        orderId,
+        products,
+        cpf: data.cpf,
+        consumptionMethod,
+      });
+      const stripe = await loadStripe(stripePublicKey);
+      stripe?.redirectToCheckout({ sessionId });
     } catch (error) {
       console.error("🚀 ~ onSubmit ~ error:", error);
     } finally {
