@@ -85,15 +85,18 @@ const FinishOrderButton = ({ open, onOpenChange }: FinishOrderDialogProps) => {
 
       if (!stripePublicKey) return;
 
-      const { sessionId } = await createStripeCheckout({
+      const response = await createStripeCheckout({
         slug,
         orderId,
         products,
         cpf: data.cpf,
         consumptionMethod,
       });
+
+      if (!response.sessionId) return;
+
       const stripe = await loadStripe(stripePublicKey);
-      stripe?.redirectToCheckout({ sessionId });
+      stripe?.redirectToCheckout({ sessionId: response.sessionId });
     } catch (error) {
       console.error("🚀 ~ onSubmit ~ error:", error);
     } finally {
